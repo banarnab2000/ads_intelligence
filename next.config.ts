@@ -1,9 +1,14 @@
 import type { NextConfig } from "next";
 
+const isGithubActions = process.env.GITHUB_ACTIONS || false;
+
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  output: 'export',
+  basePath: isGithubActions ? '/ads_intelligence' : '',
+  images: {
+    unoptimized: true,
+  },
+  devIndicators: false,
   turbopack: {
     rules: {
       "*.css": {
