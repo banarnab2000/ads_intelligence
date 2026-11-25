@@ -7,17 +7,17 @@ import {
   MessageSquare,
   BarChart3,
   Eye,
-  Code2,
   Settings2,
+  LogOut,
+  ExternalLink,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
-  { label: 'Overview', href: '/', icon: LayoutDashboard },
+  { label: 'Overview', href: '/dashboard', icon: LayoutDashboard },
   { label: 'Publisher Chat', href: '/chat', icon: MessageSquare },
   { label: 'Publishers', href: '/publishers', icon: BarChart3 },
   { label: 'AI Visibility', href: '/visibility', icon: Eye },
-  { label: 'API Docs', href: '/api-docs', icon: Code2 },
   { label: 'Controls & Data', href: '/controls', icon: Settings2 },
 ];
 
@@ -27,7 +27,7 @@ export default function Sidebar() {
   return (
     <aside className="w-[240px] flex-shrink-0 bg-white border-r border-[#e3e6ec] flex flex-col h-screen sticky top-0">
       {/* Logo */}
-      <div className="px-5 py-5 flex items-center gap-3 border-b border-[#e3e6ec]">
+      <Link href="/dashboard" className="px-5 py-5 flex items-center gap-3 border-b border-[#e3e6ec]">
         <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
           <defs>
             <linearGradient id="octaGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
@@ -45,12 +45,12 @@ export default function Sidebar() {
           <div className="font-bold text-[#0e1116] text-base leading-tight" style={{ fontFamily: 'var(--font-bricolage, sans-serif)' }}>OctaLume</div>
           <div className="text-[10px] text-[#667085]">Ad Intelligence</div>
         </div>
-      </div>
+      </Link>
 
       {/* Nav */}
       <nav className="flex-1 px-3 py-4 space-y-0.5">
         {navItems.map(({ label, href, icon: Icon }) => {
-          const isActive = href === '/' ? pathname === '/' : pathname.startsWith(href);
+          const isActive = pathname === href || pathname.startsWith(`${href}/`);
           return (
             <Link
               key={href}
@@ -67,10 +67,27 @@ export default function Sidebar() {
             </Link>
           );
         })}
+
+        <div className="pt-4 mt-4 border-t border-[#e3e6ec]/80 space-y-0.5">
+          <Link
+            href="/"
+            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#667085] hover:bg-[#f3f4f7] hover:text-[#0e1116] transition-colors"
+          >
+            <span>Public Website</span>
+            <ExternalLink size={13} />
+          </Link>
+          <Link
+            href="/docs"
+            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#667085] hover:bg-[#f3f4f7] hover:text-[#0e1116] transition-colors"
+          >
+            <span>Developer Docs</span>
+            <ExternalLink size={13} />
+          </Link>
+        </div>
       </nav>
 
       {/* User area */}
-      <div className="px-4 py-4 border-t border-[#e3e6ec]">
+      <div className="px-4 py-4 border-t border-[#e3e6ec] flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-[#2447ff] flex items-center justify-center text-white text-xs font-bold">F</div>
           <div>
@@ -78,6 +95,13 @@ export default function Sidebar() {
             <div className="text-xs text-[#667085]">Demo Account</div>
           </div>
         </div>
+        <Link
+          href="/login"
+          title="Sign Out"
+          className="p-1.5 text-[#667085] hover:text-[#0e1116] hover:bg-[#f3f4f7] rounded-lg transition-colors"
+        >
+          <LogOut size={15} />
+        </Link>
       </div>
     </aside>
   );
