@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 const publicLinks = [
   { label: 'Home', href: '/' },
   { label: 'Advertisers', href: '/advertisers' },
+  { label: 'AI Platforms', href: '/ai-platforms' },
   { label: 'Docs', href: '/docs' },
 ];
 

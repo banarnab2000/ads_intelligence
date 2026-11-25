@@ -12,6 +12,9 @@ import {
   TrendingUp,
 } from 'lucide-react';
 import VisibilityChatWidget from '@/components/chat/VisibilityChatWidget';
+import ScrollReveal from '@/components/home/ScrollReveal';
+import HowItWorksStepper from '@/components/home/HowItWorksStepper';
+import ComparisonCard from '@/components/home/ComparisonCard';
 
 const capabilities = [
   {
@@ -46,9 +49,9 @@ const capabilities = [
 
 export default function AdvertisersPage() {
   return (
-    <div className="pb-20">
+    <div className="pb-20 bg-[#f8f9fc] bg-[linear-gradient(to_right,#e3e6ec40_1px,transparent_1px),linear-gradient(to_bottom,#e3e6ec40_1px,transparent_1px)] [background-size:44px_44px]">
       {/* Hero */}
-      <section className="bg-white border-b border-[#e3e6ec]">
+      <section className="bg-white/95 border-b border-[#e3e6ec]">
         <div className="max-w-[1280px] mx-auto px-6 py-16 md:py-20">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 text-xs font-semibold text-[#2447ff] bg-[#e8ecff] px-3.5 py-1.5 rounded-full mb-5">
@@ -107,35 +110,51 @@ export default function AdvertisersPage() {
         </div>
       </section>
 
-      {/* AI Visibility Intelligence Copilot Section */}
-      <section className="max-w-[1280px] mx-auto px-6 pt-16">
-        <div className="bg-white border border-[#e3e6ec] rounded-3xl p-6 sm:p-8 shadow-sm">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
-            <div>
-              <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#7c3aed] bg-[#f3e8ff] px-3 py-1 rounded-full mb-2.5">
-                <Sparkles size={12} />
-                Live Advertiser Intelligence
-              </div>
-              <h2
-                className="text-2xl sm:text-3xl font-bold text-[#0e1116]"
-                style={{ fontFamily: 'var(--font-bricolage, sans-serif)' }}
-              >
-                AI Visibility Intelligence Copilot
-              </h2>
-              <p className="text-sm text-[#667085] mt-1.5 max-w-2xl">
-                Before you spend a dollar, query our visibility engine to inspect how often buyer
-                keywords like &ldquo;CRM&rdquo; appear across AI publishers, benchmark competitor
-                share of voice, and get tactical recommendations to outrank rival brands.
-              </p>
-            </div>
-            <div className="flex items-center gap-2 text-xs text-[#0f9d6e] bg-green-50 border border-green-200 px-3 py-1.5 rounded-full font-medium self-start md:self-auto">
-              <ShieldCheck size={14} />
-              8 AI Publishers Monitored
-            </div>
-          </div>
+      {/* Interactive 3-Step Flow for Advertisers */}
+      <section className="max-w-[1280px] mx-auto px-6 pt-16 pb-10">
+        <ScrollReveal>
+          <HowItWorksStepper initialMode="advertisers" lockedMode="advertisers" />
+        </ScrollReveal>
+      </section>
 
-          <VisibilityChatWidget heightClass="h-[660px]" showTitle={false} />
-        </div>
+      {/* Comparison Card for Advertisers */}
+      <section className="max-w-[1280px] mx-auto px-6 py-10">
+        <ScrollReveal delay={80}>
+          <ComparisonCard initialView="advertiser" lockedView="advertiser" />
+        </ScrollReveal>
+      </section>
+
+      {/* AI Visibility Intelligence Copilot Section */}
+      <section className="max-w-[1280px] mx-auto px-6 pt-10">
+        <ScrollReveal delay={100}>
+          <div className="bg-white border border-[#e3e6ec] rounded-3xl p-6 sm:p-8 shadow-sm">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+              <div>
+                <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#7c3aed] bg-[#f3e8ff] px-3 py-1 rounded-full mb-2.5">
+                  <Sparkles size={12} />
+                  Live Advertiser Intelligence
+                </div>
+                <h2
+                  className="text-2xl sm:text-3xl font-bold text-[#0e1116]"
+                  style={{ fontFamily: 'var(--font-bricolage, sans-serif)' }}
+                >
+                  AI Visibility Intelligence Copilot
+                </h2>
+                <p className="text-sm text-[#667085] mt-1.5 max-w-2xl">
+                  Before you spend a dollar, query our visibility engine to inspect how often buyer
+                  keywords like &ldquo;CRM&rdquo; appear across AI publishers, benchmark competitor
+                  share of voice, and get tactical recommendations to outrank rival brands.
+                </p>
+              </div>
+              <div className="flex items-center gap-2 text-xs text-[#0f9d6e] bg-green-50 border border-green-200 px-3 py-1.5 rounded-full font-medium self-start md:self-auto">
+                <ShieldCheck size={14} />
+                8 AI Publishers Monitored
+              </div>
+            </div>
+
+            <VisibilityChatWidget heightClass="h-[660px]" showTitle={false} />
+          </div>
+        </ScrollReveal>
       </section>
     </div>
   );

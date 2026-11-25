@@ -6,7 +6,7 @@ import Topbar from '@/components/layout/Topbar';
 import PublicNavbar from '@/components/layout/PublicNavbar';
 import PublicFooter from '@/components/layout/PublicFooter';
 
-const PUBLIC_PATHS = ['/', '/advertisers', '/docs', '/login'];
+const PUBLIC_PATHS = ['/', '/advertisers', '/ai-platforms', '/docs', '/login'];
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() || '/';

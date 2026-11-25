@@ -9,12 +9,24 @@ import {
   Layers,
   Sparkles,
   Code2,
+  Target,
+  Cpu,
   CheckCircle2,
 } from 'lucide-react';
 import PublisherChatWidget from '@/components/chat/PublisherChatWidget';
 import ScrollReveal from '@/components/home/ScrollReveal';
-import HowItWorksStepper from '@/components/home/HowItWorksStepper';
-import ComparisonCard from '@/components/home/ComparisonCard';
+
+const advertiserHighlights = [
+  'Target real-time commercial prompts across 8+ AI platforms',
+  'Smart contextual matching without disrupting LLM responses',
+  'Track deterministic & AI-assisted ROAS with oct-pix.js & CAPI',
+];
+
+const publisherHighlights = [
+  'Call @octalume/sdk in parallel with zero added LLM latency',
+  'Render native SponsoredCard UI inline or below responses',
+  'Offset GPU inference costs with high-yield CPM/CPA payouts',
+];
 
 export default function HomePage() {
   return (
@@ -51,40 +63,120 @@ export default function HomePage() {
                 <ArrowRight size={15} />
               </Link>
               <Link
+                href="/ai-platforms"
+                className="inline-flex items-center gap-2 bg-[#0f9d6e] text-white font-semibold px-6 py-3 rounded-xl hover:bg-emerald-700 transition-colors shadow-sm text-sm"
+              >
+                For AI Platforms
+                <ArrowRight size={15} />
+              </Link>
+              <Link
                 href="/docs"
                 className="inline-flex items-center gap-2 bg-white text-[#0e1116] border border-[#e3e6ec] font-semibold px-6 py-3 rounded-xl hover:bg-[#f3f4f7] transition-colors text-sm"
               >
                 <Code2 size={15} className="text-[#2447ff]" />
-                Publisher &amp; Advertiser Docs
+                Docs
               </Link>
-              <a
-                href="#live-demo"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-[#2447ff] hover:underline px-4 py-3"
-              >
-                Try Live Publisher Chat ↓
-              </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Animated 3-Step Flow (How it works — In 3 steps) */}
-      <section className="max-w-[1280px] mx-auto px-6 pt-20 pb-16">
+      {/* Two-Sided Marketplace Overview */}
+      <section className="max-w-[1280px] mx-auto px-6 pt-20 pb-12">
         <ScrollReveal>
-          <HowItWorksStepper />
-        </ScrollReveal>
-      </section>
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <div className="text-xs font-semibold text-[#2447ff] uppercase tracking-wider mb-2">
+              Two-Sided AI Ad Network
+            </div>
+            <h2
+              className="text-3xl sm:text-4xl font-bold text-[#0e1116] tracking-tight"
+              style={{ fontFamily: 'var(--font-bricolage, sans-serif)' }}
+            >
+              Built for both Advertisers and AI Platforms
+            </h2>
+            <p className="text-sm sm:text-base text-[#667085] mt-3">
+              Explore the dedicated workflows, live impact comparisons, and integration tools for
+              your side of the network.
+            </p>
+          </div>
 
-      {/* Catchy Comparison Card (Without OctaLume vs With OctaLume) */}
-      <section className="max-w-[1280px] mx-auto px-6 py-12">
-        <ScrollReveal delay={80}>
-          <ComparisonCard />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Advertisers Card */}
+            <div className="bg-white border border-[#e3e6ec] rounded-3xl p-8 shadow-sm flex flex-col justify-between hover:border-[#2447ff]/40 transition-colors">
+              <div>
+                <span className="inline-flex items-center gap-2 text-xs font-semibold text-[#2447ff] bg-[#e8ecff] px-3 py-1 rounded-full mb-5">
+                  <Target size={13} />
+                  For Advertisers &amp; Brands
+                </span>
+                <h3
+                  className="text-2xl font-bold text-[#0e1116] mb-2"
+                  style={{ fontFamily: 'var(--font-bricolage, sans-serif)' }}
+                >
+                  Capture high-intent AI recommendations
+                </h3>
+                <p className="text-sm text-[#667085] mb-6">
+                  See how OctaLume matches your product to buyer conversations, tracks Pixel + CAPI
+                  conversions, and monitors competitor share of voice.
+                </p>
+                <ul className="space-y-2.5 mb-8">
+                  {advertiserHighlights.map((item) => (
+                    <li key={item} className="flex items-start gap-2.5 text-sm text-[#0e1116]">
+                      <CheckCircle2 size={16} className="text-[#2447ff] mt-0.5 flex-shrink-0" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <Link
+                href="/advertisers"
+                className="inline-flex items-center justify-center gap-2 bg-[#2447ff] text-white text-sm font-semibold px-5 py-3 rounded-xl hover:bg-blue-700 transition-colors"
+              >
+                Explore Advertisers Page
+                <ArrowRight size={15} />
+              </Link>
+            </div>
+
+            {/* AI Platforms Card */}
+            <div className="bg-white border border-[#e3e6ec] rounded-3xl p-8 shadow-sm flex flex-col justify-between hover:border-[#0f9d6e]/40 transition-colors">
+              <div>
+                <span className="inline-flex items-center gap-2 text-xs font-semibold text-[#0f9d6e] bg-green-50 border border-green-200 px-3 py-1 rounded-full mb-5">
+                  <Cpu size={13} />
+                  For AI Platforms &amp; Publishers
+                </span>
+                <h3
+                  className="text-2xl font-bold text-[#0e1116] mb-2"
+                  style={{ fontFamily: 'var(--font-bricolage, sans-serif)' }}
+                >
+                  Monetize chats with zero LLM latency
+                </h3>
+                <p className="text-sm text-[#667085] mb-6">
+                  See how AI assistants, chat apps, and search engines integrate OctaLume in
+                  parallel with inference to turn sessions into revenue.
+                </p>
+                <ul className="space-y-2.5 mb-8">
+                  {publisherHighlights.map((item) => (
+                    <li key={item} className="flex items-start gap-2.5 text-sm text-[#0e1116]">
+                      <CheckCircle2 size={16} className="text-[#0f9d6e] mt-0.5 flex-shrink-0" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <Link
+                href="/ai-platforms"
+                className="inline-flex items-center justify-center gap-2 bg-[#0f9d6e] text-white text-sm font-semibold px-5 py-3 rounded-xl hover:bg-emerald-700 transition-colors"
+              >
+                Explore AI Platforms Page
+                <ArrowRight size={15} />
+              </Link>
+            </div>
+          </div>
         </ScrollReveal>
       </section>
 
       {/* Live Interactive Publisher Chatbot Section */}
-      <section id="live-demo" className="max-w-[1280px] mx-auto px-6 py-16">
-        <ScrollReveal delay={100}>
+      <section id="live-demo" className="max-w-[1280px] mx-auto px-6 py-14">
+        <ScrollReveal delay={80}>
           <div className="bg-white border border-[#e3e6ec] rounded-3xl p-6 sm:p-8 shadow-sm">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
               <div>
@@ -120,7 +212,7 @@ export default function HomePage() {
 
       {/* Architecture & Trust Strip */}
       <section className="max-w-[1280px] mx-auto px-6 pb-16">
-        <ScrollReveal delay={120}>
+        <ScrollReveal delay={100}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div className="bg-white border border-[#e3e6ec] rounded-2xl p-6 shadow-2xs hover:border-[#2447ff]/40 transition-colors">
               <ShieldCheck size={22} className="text-[#2447ff] mb-3" />

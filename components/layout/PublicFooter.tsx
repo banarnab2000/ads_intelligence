@@ -33,6 +33,7 @@ export default function PublicFooter() {
         <div className="flex flex-wrap items-center gap-6 text-xs font-medium text-[#667085]">
           <Link href="/" className="hover:text-[#0e1116] transition-colors">Home</Link>
           <Link href="/advertisers" className="hover:text-[#0e1116] transition-colors">Advertisers</Link>
+          <Link href="/ai-platforms" className="hover:text-[#0e1116] transition-colors">AI Platforms</Link>
           <Link href="/docs" className="hover:text-[#0e1116] transition-colors">Publisher Docs</Link>
           <Link href="/docs?section=advertisers" className="hover:text-[#0e1116] transition-colors">Advertiser Docs</Link>
           <Link href="/login" className="text-[#2447ff] hover:underline">Sign In</Link>

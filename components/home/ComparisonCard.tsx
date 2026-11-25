@@ -2,8 +2,14 @@
 
 import { useState } from 'react';
 
-export default function ComparisonCard() {
-  const [view, setView] = useState<'platform' | 'advertiser'>('platform');
+export default function ComparisonCard({
+  initialView = 'platform',
+  lockedView,
+}: {
+  initialView?: 'platform' | 'advertiser';
+  lockedView?: 'platform' | 'advertiser';
+}) {
+  const [view, setView] = useState<'platform' | 'advertiser'>(lockedView || initialView);
 
   return (
     <div className="bg-white border border-[#e3e6ec] rounded-3xl p-6 sm:p-10 shadow-sm max-w-4xl mx-auto">
@@ -19,6 +25,7 @@ export default function ComparisonCard() {
             See the difference before and after integrating OctaLume
           </p>
         </div>
+        {!lockedView && (
         <div className="inline-flex p-1 bg-[#f3f4f7] border border-[#e3e6ec] rounded-xl self-start">
           <button
             onClick={() => setView('platform')}
@@ -37,6 +44,7 @@ export default function ComparisonCard() {
             Advertisers
           </button>
         </div>
+        )}
       </div>
 
       {/* Split Comparison Box (Modeled after Image 3) */}

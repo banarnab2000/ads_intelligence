@@ -79,8 +79,14 @@ const eventRows = [
   { event: 'sign_up', source: 'Pixel + API', total: '38,471' },
 ];
 
-export default function HowItWorksStepper() {
-  const [mode, setMode] = useState<Mode>('advertisers');
+export default function HowItWorksStepper({
+  initialMode = 'advertisers',
+  lockedMode,
+}: {
+  initialMode?: Mode;
+  lockedMode?: Mode;
+}) {
+  const [mode, setMode] = useState<Mode>(lockedMode || initialMode);
   const [activeStep, setActiveStep] = useState(0);
   const [paused, setPaused] = useState(false);
 
@@ -119,6 +125,7 @@ export default function HowItWorksStepper() {
           </h2>
         </div>
 
+        {!lockedMode && (
         <div className="inline-flex p-1 bg-[#f3f4f7] border border-[#e3e6ec] rounded-2xl self-start">
           <button
             onClick={() => handleModeChange('advertisers')}
@@ -143,6 +150,7 @@ export default function HowItWorksStepper() {
             For AI Platforms
           </button>
         </div>
+        )}
       </div>
 
       {/* 2-Column Stepper + Animated Preview */}
