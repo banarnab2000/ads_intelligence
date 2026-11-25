@@ -51,10 +51,15 @@ export default function VisibilityChatWidget({
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messages.length > 1 && messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTo({
+        top: messagesContainerRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
   };
 
   useEffect(() => {
@@ -243,7 +248,7 @@ export default function VisibilityChatWidget({
       {/* Main Chat Stream Container */}
       <div className="flex-1 bg-white border border-[#e3e6ec] rounded-2xl overflow-hidden shadow-sm flex flex-col min-h-0">
         {/* Messages Scroll Area */}
-        <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6">
+        <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6">
           {messages.map((m) => {
             const isUser = m.role === 'user';
             return (
@@ -565,8 +570,6 @@ export default function VisibilityChatWidget({
               </div>
             </div>
           )}
-
-          <div ref={messagesEndRef} />
         </div>
 
         {/* Input Bar */}

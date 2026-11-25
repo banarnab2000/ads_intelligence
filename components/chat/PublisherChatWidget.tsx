@@ -83,7 +83,7 @@ export default function PublisherChatWidget({ heightClass = 'h-[calc(100vh-8rem)
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   // Insight engine state
   const [insightMessages, setInsightMessages] = useState<Message[]>([]);
@@ -92,7 +92,12 @@ export default function PublisherChatWidget({ heightClass = 'h-[calc(100vh-8rem)
   const [insightPublisher, setInsightPublisher] = useState('all');
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messages.length > 0 && messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTo({
+        top: messagesContainerRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
   }, [messages]);
 
   const handleSend = async () => {
@@ -203,7 +208,7 @@ export default function PublisherChatWidget({ heightClass = 'h-[calc(100vh-8rem)
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-5 space-y-4">
+        <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-5 space-y-4">
           {messages.length === 0 && (
             <div className="flex flex-col items-center justify-center h-full text-center text-[#667085]">
               <div className="w-12 h-12 rounded-2xl mb-3 flex items-center justify-center text-xl font-bold text-white shadow-sm" style={{ backgroundColor: selectedPublisher.color }}>
@@ -265,7 +270,6 @@ export default function PublisherChatWidget({ heightClass = 'h-[calc(100vh-8rem)
               </div>
             </div>
           )}
-          <div ref={messagesEndRef} />
         </div>
 
         {/* Input */}
