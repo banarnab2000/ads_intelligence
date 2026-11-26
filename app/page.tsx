@@ -144,19 +144,19 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-t from-[#030712]/80 via-transparent to-[#030712]/40 pointer-events-none" />
 
           <div className="relative z-10 max-w-[1000px] mx-auto px-4 sm:px-6 py-12 sm:py-16 text-center">
-            <div className="inline-flex items-center gap-2 text-xs font-semibold text-blue-300 bg-blue-900/40 border border-blue-700/40 px-4 py-1.5 rounded-full mb-6">
+            <div className="inline-flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-blue-300 bg-blue-900/40 border border-blue-700/40 px-4 py-1.5 rounded-full mb-6">
               <Sparkles size={13} />
-              The AI-Native Advertising &amp; Monetization Network
+              AI-Native Advertising Infrastructure
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.08] mb-5" style={{ fontFamily: 'var(--font-bricolage, sans-serif)' }}>
-              <span className="text-white">Intent-based AI advertising.</span>
+              <span className="text-white">The right brand. The right intent.</span>
               <br />
-              <span className="gradient-text-animated">The future of AI revenue &amp; growth.</span>
+              <span className="gradient-text-animated">The right audience. The right conversion.</span>
             </h1>
 
             <p className="text-base sm:text-lg text-blue-200/85 mt-4 leading-relaxed max-w-2xl mx-auto">
-              Real-time AI-native ad intelligence that connects high-intent buyers with the right brands — fueling sustainable revenue for AI platforms and precision growth for advertisers.
+              Connecting AI conversations with meaningful brand discovery, contextual advertising, and measurable growth.
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-3.5 mt-8">
