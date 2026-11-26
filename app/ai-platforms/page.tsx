@@ -19,50 +19,62 @@ const platformCapabilities = [
     icon: Zap,
     title: 'Zero-Latency Parallel Serving',
     desc: 'Request ads concurrently with your LLM stream in under 45ms so token generation is never delayed.',
-    color: '#0f9d6e',
-    bg: '#dcfce7',
+    accent: 'text-emerald-400',
+    iconBg: 'bg-emerald-500/15 border-emerald-400/30',
   },
   {
     icon: Layers,
     title: 'Native Conversational UI',
     desc: 'Drop-in @octalume/react components for inline_response, below_response, and search_result placements.',
-    color: '#2447ff',
-    bg: '#e8ecff',
+    accent: 'text-blue-400',
+    iconBg: 'bg-blue-500/15 border-blue-400/30',
   },
   {
     icon: DollarSign,
     title: 'High-Yield Inference Offset',
     desc: 'Monetize commercial user intent with premium B2B and SaaS CPM/CPA payouts that offset GPU costs.',
-    color: '#d97706',
-    bg: '#fef3c7',
+    accent: 'text-amber-400',
+    iconBg: 'bg-amber-500/15 border-amber-400/30',
   },
   {
     icon: ShieldCheck,
     title: 'GDPR & GPC Privacy Built-In',
     desc: 'Respects user consent signals automatically, defaulting to zero-identifier contextual ads when opted out.',
-    color: '#7c3aed',
-    bg: '#f3e8ff',
+    accent: 'text-violet-400',
+    iconBg: 'bg-violet-500/15 border-violet-400/30',
   },
 ];
 
 export default function AiPlatformsPage() {
   return (
-    <div className="pb-20 bg-[#f8f9fc] bg-[linear-gradient(to_right,#e3e6ec40_1px,transparent_1px),linear-gradient(to_bottom,#e3e6ec40_1px,transparent_1px)] [background-size:44px_44px]">
-      {/* Hero */}
-      <section className="bg-white/95 border-b border-[#e3e6ec]">
-        <div className="max-w-[1280px] mx-auto px-6 py-16 md:py-20">
+    <div className="pb-20 bg-[#f8f9fc]">
+      {/* Dark Atmospheric Hero */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#030712] via-[#06181a] to-[#030712] text-white">
+        <div
+          className="absolute inset-0 opacity-40"
+          style={{
+            backgroundImage: 'radial-gradient(circle, rgba(52,211,153,0.16) 1px, transparent 1px)',
+            backgroundSize: '32px 32px',
+          }}
+        />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[720px] h-[360px] bg-emerald-600/15 blur-[130px] rounded-full pointer-events-none" />
+
+        <div className="relative z-10 max-w-[1280px] mx-auto px-4 sm:px-6 py-16 md:py-24">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 text-xs font-semibold text-[#0f9d6e] bg-green-50 border border-green-200 px-3.5 py-1.5 rounded-full mb-5">
+            <div className="inline-flex items-center gap-2 text-xs font-semibold text-emerald-300 bg-emerald-950/60 border border-emerald-700/40 px-3.5 py-1.5 rounded-full mb-6">
               <Cpu size={13} />
               OctaLume for AI Platforms &amp; Publishers
             </div>
             <h1
-              className="text-4xl sm:text-5xl font-bold text-[#0e1116] tracking-tight leading-[1.12]"
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.08]"
               style={{ fontFamily: 'var(--font-bricolage, sans-serif)' }}
             >
-              Monetize every AI conversation without slowing down your model
+              Monetize every AI conversation{' '}
+              <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-blue-400 bg-clip-text text-transparent">
+                without slowing your model
+              </span>
             </h1>
-            <p className="text-base sm:text-lg text-[#667085] mt-5 leading-relaxed">
+            <p className="text-base sm:text-lg text-emerald-100/80 mt-5 leading-relaxed max-w-2xl">
               Turn free-tier chat, AI search, and agent workflows into a sustainable revenue engine.
               OctaLume serves relevant, clearly labeled native suggestions in parallel with your
               LLM — preserving objective answers and user trust.
@@ -70,14 +82,14 @@ export default function AiPlatformsPage() {
             <div className="flex flex-wrap gap-3.5 mt-8">
               <Link
                 href="/docs?section=publishers"
-                className="inline-flex items-center gap-2 bg-[#0f9d6e] text-white text-sm font-semibold px-6 py-3 rounded-xl hover:bg-emerald-700 transition-colors shadow-sm"
+                className="inline-flex items-center gap-2 bg-[#0f9d6e] text-white text-sm font-semibold px-6 py-3 rounded-xl hover:bg-emerald-600 transition-colors shadow-lg shadow-emerald-950/50"
               >
                 <Code2 size={15} />
                 Read Publisher Docs
               </Link>
               <Link
                 href="/#live-demo"
-                className="inline-flex items-center gap-2 bg-white text-[#0e1116] border border-[#e3e6ec] text-sm font-semibold px-6 py-3 rounded-xl hover:bg-[#f3f4f7] transition-colors"
+                className="inline-flex items-center gap-2 bg-white/10 text-white border border-white/20 text-sm font-semibold px-6 py-3 rounded-xl hover:bg-white/20 transition-colors"
               >
                 Try Live Publisher Chat
                 <ArrowRight size={15} />
@@ -85,23 +97,22 @@ export default function AiPlatformsPage() {
             </div>
           </div>
 
-          {/* Capabilities Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-14">
+          {/* Glassmorphic Capabilities Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-14">
             {platformCapabilities.map((cap) => {
               const Icon = cap.icon;
               return (
                 <div
                   key={cap.title}
-                  className="bg-[#f8f9fc] border border-[#e3e6ec] rounded-2xl p-5 hover:border-[#0f9d6e]/40 transition-colors"
+                  className="bg-white/[0.04] border border-white/10 backdrop-blur-sm rounded-2xl p-5 hover:border-emerald-400/40 hover:bg-white/[0.06] transition-all"
                 >
                   <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
-                    style={{ backgroundColor: cap.bg, color: cap.color }}
+                    className={`w-10 h-10 rounded-xl border flex items-center justify-center mb-4 ${cap.iconBg} ${cap.accent}`}
                   >
                     <Icon size={18} />
                   </div>
-                  <h3 className="font-semibold text-[#0e1116] text-sm mb-1.5">{cap.title}</h3>
-                  <p className="text-xs text-[#667085] leading-relaxed">{cap.desc}</p>
+                  <h3 className="font-semibold text-white text-sm mb-1.5">{cap.title}</h3>
+                  <p className="text-xs text-emerald-100/70 leading-relaxed">{cap.desc}</p>
                 </div>
               );
             })}
@@ -110,23 +121,23 @@ export default function AiPlatformsPage() {
       </section>
 
       {/* Interactive 3-Step Flow for AI Platforms */}
-      <section className="max-w-[1280px] mx-auto px-6 pt-16 pb-10">
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-6 pt-16 pb-10">
         <ScrollReveal>
           <HowItWorksStepper initialMode="publishers" lockedMode="publishers" />
         </ScrollReveal>
       </section>
 
       {/* Comparison Card for AI Platforms */}
-      <section className="max-w-[1280px] mx-auto px-6 py-10">
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-6 py-10">
         <ScrollReveal delay={80}>
           <ComparisonCard initialView="platform" lockedView="platform" />
         </ScrollReveal>
       </section>
 
       {/* Bottom CTA */}
-      <section className="max-w-[1280px] mx-auto px-6 pt-8">
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-6 pt-8">
         <ScrollReveal delay={100}>
-          <div className="rounded-3xl bg-[#0e1116] text-white p-8 sm:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="rounded-3xl bg-gradient-to-r from-[#030712] via-[#0a192f] to-[#062118] border border-white/10 text-white p-8 sm:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-xl">
             <div>
               <h2
                 className="text-2xl font-bold"

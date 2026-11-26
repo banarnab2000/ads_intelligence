@@ -535,7 +535,7 @@ export default function VisibilityChatWidget({
             </button>
           </form>
           <div className="flex items-center justify-between text-[11px] text-[#667085] mt-2 px-1 flex-wrap gap-1">
-            <span>OctaLume AI Visibility Engine · llama-3.3-70b-versatile via Groq</span>
+            <span>OctaLume AI Visibility Engine</span>
             <span>Real-time Prompt Intelligence</span>
           </div>
         </div>
