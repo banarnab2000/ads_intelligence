@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
@@ -21,26 +22,14 @@ const navItems = [
   { label: 'Controls & Data', href: '/controls', icon: Settings2 },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname();
 
   return (
-    <aside className="w-[240px] flex-shrink-0 bg-white border-r border-[#e3e6ec] flex flex-col h-screen sticky top-0">
+    <aside className="w-[240px] flex-shrink-0 bg-white border-r border-[#e3e6ec] flex flex-col h-full">
       {/* Logo */}
-      <Link href="/dashboard" className="px-5 py-5 flex items-center gap-3 border-b border-[#e3e6ec]">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-          <defs>
-            <linearGradient id="octaGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#2447ff" />
-              <stop offset="1" stopColor="#7c3aed" />
-            </linearGradient>
-          </defs>
-          <polygon
-            points="11,2 21,2 30,11 30,21 21,30 11,30 2,21 2,11"
-            fill="url(#octaGrad)"
-          />
-          <text x="16" y="21" textAnchor="middle" fill="white" fontSize="13" fontWeight="bold" fontFamily="sans-serif">O</text>
-        </svg>
+      <Link href="/dashboard" onClick={onClose} className="px-5 py-5 flex items-center gap-3 border-b border-[#e3e6ec]">
+        <Image src="/logo.png" alt="OctaLume" width={40} height={24} className="object-contain" />
         <div>
           <div className="font-bold text-[#0e1116] text-base leading-tight" style={{ fontFamily: 'var(--font-bricolage, sans-serif)' }}>OctaLume</div>
           <div className="text-[10px] text-[#667085]">Ad Intelligence</div>
@@ -55,6 +44,7 @@ export default function Sidebar() {
             <Link
               key={href}
               href={href}
+              onClick={onClose}
               className={cn(
                 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
                 isActive
@@ -71,6 +61,7 @@ export default function Sidebar() {
         <div className="pt-4 mt-4 border-t border-[#e3e6ec]/80 space-y-0.5">
           <Link
             href="/"
+            onClick={onClose}
             className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#667085] hover:bg-[#f3f4f7] hover:text-[#0e1116] transition-colors"
           >
             <span>Public Website</span>
@@ -78,6 +69,7 @@ export default function Sidebar() {
           </Link>
           <Link
             href="/docs"
+            onClick={onClose}
             className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#667085] hover:bg-[#f3f4f7] hover:text-[#0e1116] transition-colors"
           >
             <span>Developer Docs</span>

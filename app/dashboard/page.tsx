@@ -21,7 +21,7 @@ const publisherAttribution = [
 
 export default function OverviewPage() {
   return (
-    <div className="max-w-[1400px] mx-auto space-y-6 pb-12">
+    <div className="max-w-[1400px] mx-auto space-y-6 pb-12 px-0 sm:px-0">
       {/* Greeting Hero */}
       <div className="rounded-2xl border border-[#e3e6ec] bg-gradient-to-r from-[#e8ecff] via-white to-white p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-sm">
         <div>

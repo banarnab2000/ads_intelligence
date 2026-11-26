@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Lock, Mail, ArrowRight, Sparkles } from 'lucide-react';
 
 export default function LoginPage() {
@@ -26,21 +27,7 @@ export default function LoginPage() {
     <div className="min-h-[calc(100vh-12rem)] flex items-center justify-center px-6 py-16">
       <div className="w-full max-w-md bg-white border border-[#e3e6ec] rounded-3xl p-8 shadow-sm">
         <div className="flex items-center gap-3 mb-6">
-          <svg width="34" height="34" viewBox="0 0 32 32" fill="none">
-            <defs>
-              <linearGradient id="octaLoginGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#2447ff" />
-                <stop offset="1" stopColor="#7c3aed" />
-              </linearGradient>
-            </defs>
-            <polygon
-              points="11,2 21,2 30,11 30,21 21,30 11,30 2,21 2,11"
-              fill="url(#octaLoginGrad)"
-            />
-            <text x="16" y="21" textAnchor="middle" fill="white" fontSize="13" fontWeight="bold" fontFamily="sans-serif">
-              O
-            </text>
-          </svg>
+          <Image src="/logo.png" alt="OctaLume" width={40} height={24} className="object-contain" />
           <div>
             <h1
               className="text-xl font-bold text-[#0e1116]"

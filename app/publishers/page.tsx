@@ -25,7 +25,7 @@ function ConfidenceBadge({ level }: { level: string }) {
 
 export default function PublishersPage() {
   return (
-    <div className="max-w-[1400px] mx-auto space-y-6 pb-12">
+    <div className="max-w-[1400px] mx-auto space-y-6 pb-12 px-0 sm:px-0">
       <div>
         <h1 className="text-2xl font-bold text-[#0e1116]" style={{ fontFamily: 'var(--font-bricolage, sans-serif)' }}>
           Publishers

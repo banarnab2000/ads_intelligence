@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import {
   Send,
   Sparkles,
@@ -14,7 +15,6 @@ import {
   Search,
   Award,
   Layers,
-  ArrowUpRight,
 } from 'lucide-react';
 
 interface ChatMessage {
@@ -101,7 +101,6 @@ export default function VisibilityChatWidget({
 
     const lower = textToSend.toLowerCase();
 
-    // Check for rich dummy responses
     if (lower.includes('crm') && (lower.includes('search analytics') || lower.includes('keyword') || lower.includes('analytics'))) {
       setTimeout(() => {
         const assistantMsg: ChatMessage = {
@@ -162,7 +161,6 @@ export default function VisibilityChatWidget({
       return;
     }
 
-    // Call API route
     try {
       const res = await fetch('/api/visibility-chat', {
         method: 'POST',
@@ -197,111 +195,111 @@ export default function VisibilityChatWidget({
   };
 
   return (
-    <div className={`max-w-[1200px] mx-auto space-y-5 pb-4 ${heightClass} flex flex-col`}>
+    <div className={`max-w-[1200px] mx-auto space-y-4 pb-4 px-0 sm:px-2 h-auto ${heightClass.startsWith('h-') ? `md:${heightClass}` : 'md:h-[calc(100vh-6rem)]'} flex flex-col`}>
       {/* Top Header */}
       {showTitle && (
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 flex-shrink-0">
-        <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold text-[#0e1116]" style={{ fontFamily: 'var(--font-bricolage, sans-serif)' }}>
-              AI Visibility Intelligence
-            </h1>
-            <span className="text-xs bg-[#e8ecff] text-[#2447ff] font-semibold px-2.5 py-0.5 rounded-full border border-blue-200">
-              Copilot Engine
-            </span>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 flex-shrink-0">
+          <div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <div className="w-8 h-8 flex-shrink-0">
+                <Image src="/logo.png" alt="OctaLume" width={32} height={20} className="object-contain" />
+              </div>
+              <h1 className="text-xl sm:text-2xl font-bold text-[#0e1116]" style={{ fontFamily: 'var(--font-bricolage, sans-serif)' }}>
+                AI Visibility Intelligence
+              </h1>
+              <span className="text-xs bg-[#e8ecff] text-[#2447ff] font-semibold px-2.5 py-0.5 rounded-full border border-blue-200">
+                Copilot Engine
+              </span>
+            </div>
+            <p className="text-sm text-[#667085] mt-0.5">
+              Query prompt volume, keyword prevalence across AI publishers, and actionable visibility strategies
+            </p>
           </div>
-          <p className="text-sm text-[#667085] mt-0.5">
-            Query prompt volume, keyword prevalence across AI publishers, and actionable visibility strategies
-          </p>
-        </div>
 
-        <button
-          onClick={resetChat}
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-[#667085] hover:text-[#0e1116] bg-white border border-[#e3e6ec] px-3 py-1.5 rounded-lg hover:bg-[#f3f4f7] transition-colors self-start sm:self-auto"
-        >
-          <RotateCcw size={13} />
-          Reset Chat
-        </button>
-      </div>
+          <button
+            onClick={resetChat}
+            className="inline-flex items-center gap-1.5 text-xs font-medium text-[#667085] hover:text-[#0e1116] bg-white border border-[#e3e6ec] px-3 py-1.5 rounded-lg hover:bg-[#f3f4f7] transition-colors self-start sm:self-auto"
+          >
+            <RotateCcw size={13} />
+            Reset Chat
+          </button>
+        </div>
       )}
 
-      {/* Suggested Dummy Questions Chips */}
+      {/* Suggested questions as prominent cards */}
       <div className="flex-shrink-0">
         <div className="text-xs font-semibold text-[#667085] mb-2 uppercase tracking-wider flex items-center gap-1.5">
           <Sparkles size={13} className="text-[#2447ff]" />
           Suggested Intelligence Queries:
         </div>
-        <div className="flex gap-2 flex-wrap">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {suggestedQuestions.map((q) => (
             <button
               key={q}
               onClick={() => handleSend(q)}
-              className="text-xs px-3.5 py-1.5 rounded-full bg-white border border-[#e3e6ec] text-[#0e1116] hover:border-[#2447ff] hover:text-[#2447ff] hover:bg-[#e8ecff]/50 font-medium transition-all shadow-2xs flex items-center gap-1.5"
+              className="text-xs px-3.5 py-2.5 rounded-xl bg-white border border-[#e3e6ec] text-[#0e1116] hover:border-[#2447ff] hover:text-[#2447ff] hover:bg-[#e8ecff]/50 font-medium transition-all shadow-sm flex items-center gap-2 text-left"
             >
-              <Search size={11} className="text-[#2447ff]" />
-              {q}
+              <Search size={13} className="text-[#2447ff] flex-shrink-0" />
+              <span className="break-words">{q}</span>
             </button>
           ))}
         </div>
       </div>
 
-      {/* Main Chat Stream Container */}
-      <div className="flex-1 bg-white border border-[#e3e6ec] rounded-2xl overflow-hidden shadow-sm flex flex-col min-h-0">
+      {/* Main Chat Stream */}
+      <div className="flex-1 bg-white border border-[#e3e6ec] rounded-2xl overflow-hidden shadow-sm flex flex-col min-h-[420px] md:min-h-0">
         {/* Messages Scroll Area */}
-        <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6">
+        <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
           {messages.map((m) => {
             const isUser = m.role === 'user';
             return (
-              <div key={m.id} className={`flex gap-3.5 ${isUser ? 'justify-end' : 'justify-start'}`}>
+              <div key={m.id} className={`flex gap-3 ${isUser ? 'justify-end' : 'justify-start'}`}>
                 {!isUser && (
-                  <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#2447ff] to-[#7c3aed] flex items-center justify-center text-white flex-shrink-0 shadow-sm mt-0.5">
-                    <Bot size={16} />
+                  <div className="w-8 h-8 rounded-xl bg-[#0a0f2e] border border-[#2447ff]/30 flex items-center justify-center flex-shrink-0 shadow-sm mt-0.5">
+                    <Image src="/logo.png" alt="OctaLume" width={22} height={13} className="object-contain" />
                   </div>
                 )}
 
-                <div className={`max-w-[92%] sm:max-w-[85%] space-y-2 ${isUser ? 'items-end' : 'items-start'}`}>
+                <div className={`max-w-[92%] sm:max-w-[85%] space-y-2 ${isUser ? 'items-end' : 'items-start'} flex flex-col`}>
                   {/* Message Bubble */}
                   <div
-                    className={`rounded-2xl p-4 sm:p-5 text-sm leading-relaxed ${
+                    className={`rounded-2xl p-4 text-sm leading-relaxed w-full ${
                       isUser
                         ? 'bg-[#0e1116] text-white rounded-tr-xs shadow-sm ml-auto'
-                        : 'bg-[#f8f9fb] border border-[#e3e6ec] text-[#0e1116] rounded-tl-xs shadow-2xs'
+                        : 'bg-[#f8f9fb] border border-[#e3e6ec] text-[#0e1116] rounded-tl-xs shadow-sm'
                     }`}
                   >
-                    <div className="whitespace-pre-wrap">{m.content}</div>
+                    <div className="whitespace-pre-wrap break-words">{m.content}</div>
 
                     {/* Rich Data Card: CRM Analytics */}
                     {m.richData === 'crm-analytics' && (
                       <div className="mt-4 pt-4 border-t border-[#e3e6ec] space-y-5 text-xs text-[#0e1116]">
-                        {/* Summary KPI Callout */}
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                          <div className="bg-white border border-[#e3e6ec] rounded-xl p-3 shadow-2xs">
-                            <span className="text-[#667085] block mb-1">Monthly "CRM" Prompts</span>
+                          <div className="bg-white border border-[#e3e6ec] rounded-xl p-3 shadow-sm">
+                            <span className="text-[#667085] block mb-1">Monthly &ldquo;CRM&rdquo; Prompts</span>
                             <span className="text-xl font-bold text-[#2447ff]">142,500</span>
                             <span className="text-[11px] text-green-700 block mt-0.5">↑ +18% MoM growth</span>
                           </div>
-                          <div className="bg-white border border-[#e3e6ec] rounded-xl p-3 shadow-2xs">
+                          <div className="bg-white border border-[#e3e6ec] rounded-xl p-3 shadow-sm">
                             <span className="text-[#667085] block mb-1">Top Platform Volume</span>
                             <span className="text-xl font-bold text-[#0e1116]">ChatGPT (33.8%)</span>
                             <span className="text-[11px] text-[#667085] block mt-0.5">48,200 prompts</span>
                           </div>
-                          <div className="bg-white border border-[#e3e6ec] rounded-xl p-3 shadow-2xs">
+                          <div className="bg-white border border-[#e3e6ec] rounded-xl p-3 shadow-sm">
                             <span className="text-[#667085] block mb-1">Flowdesk Share of Voice</span>
                             <span className="text-xl font-bold text-[#0f9d6e]">24.2%</span>
                             <span className="text-[11px] text-[#667085] block mt-0.5">Rank #2 in category</span>
                           </div>
                         </div>
 
-                        {/* Keyword Frequency by Publisher Platform */}
-                        <div className="bg-white border border-[#e3e6ec] rounded-xl p-4 shadow-2xs">
-                          <div className="font-semibold text-sm text-[#0e1116] mb-3 flex items-center justify-between">
+                        <div className="bg-white border border-[#e3e6ec] rounded-xl p-4 shadow-sm">
+                          <div className="font-semibold text-sm text-[#0e1116] mb-3 flex items-center justify-between flex-wrap gap-2">
                             <span className="flex items-center gap-1.5">
                               <BarChart3 size={15} className="text-[#2447ff]" />
-                              Frequency of "CRM" Keyword by AI Publisher
+                              Frequency of &ldquo;CRM&rdquo; Keyword by AI Publisher
                             </span>
                             <span className="text-xs text-[#667085] font-normal">Sample: 142.5k prompts</span>
                           </div>
-
                           <div className="space-y-3">
                             {[
                               { pub: 'ChatGPT (OpenAI)', count: '48,200', pct: 33.8, color: '#16a34a' },
@@ -312,7 +310,7 @@ export default function VisibilityChatWidget({
                               { pub: 'Meta AI & Grok', count: '5,700', pct: 4.0, color: '#3b82f6' },
                             ].map((row) => (
                               <div key={row.pub} className="space-y-1">
-                                <div className="flex items-center justify-between text-xs">
+                                <div className="flex items-center justify-between text-xs flex-wrap gap-1">
                                   <span className="font-medium text-[#0e1116]">{row.pub}</span>
                                   <div className="flex items-center gap-2">
                                     <span className="text-[#667085]">{row.count} prompts</span>
@@ -330,18 +328,16 @@ export default function VisibilityChatWidget({
                           </div>
                         </div>
 
-                        {/* Competitor SOV Breakdown */}
-                        <div className="bg-white border border-[#e3e6ec] rounded-xl p-4 shadow-2xs">
-                          <div className="font-semibold text-sm text-[#0e1116] mb-3 flex items-center justify-between">
+                        <div className="bg-white border border-[#e3e6ec] rounded-xl p-4 shadow-sm">
+                          <div className="font-semibold text-sm text-[#0e1116] mb-3 flex items-center justify-between flex-wrap gap-2">
                             <span className="flex items-center gap-1.5">
                               <Award size={15} className="text-[#2447ff]" />
-                              Competitor Share of Voice for "CRM" Queries
+                              Competitor Share of Voice for &ldquo;CRM&rdquo; Queries
                             </span>
                             <span className="text-xs text-[#0f9d6e] font-medium bg-green-50 px-2 py-0.5 rounded-full">
                               Flowdesk in Top 2
                             </span>
                           </div>
-
                           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
                             <div className="p-3 bg-[#fafafa] rounded-lg border border-[#e3e6ec]">
                               <span className="text-xs text-[#667085] block">#1 Vertex CRM</span>
@@ -366,7 +362,6 @@ export default function VisibilityChatWidget({
                           </div>
                         </div>
 
-                        {/* Co-occurring Prompt Clusters */}
                         <div className="bg-gradient-to-r from-[#fafbff] to-[#f5f8ff] border border-blue-100 rounded-xl p-3.5 flex items-start gap-3">
                           <Layers size={18} className="text-[#2447ff] flex-shrink-0 mt-0.5" />
                           <div>
@@ -374,7 +369,7 @@ export default function VisibilityChatWidget({
                               High-Opportunity Prompt Cluster Identified:
                             </span>
                             <span className="text-xs text-[#667085] leading-relaxed block mt-0.5">
-                              Queries matching <em>"CRM with automated follow-up"</em> surged <strong>+41%</strong> this week. Competitor visibility is unusually low in this cluster (Vertex: 14%, Leadly: 8%). Activating a dedicated $120/day Claude campaign will capture ~1,800 monthly high-intent buyer conversations.
+                              Queries matching <em>&ldquo;CRM with automated follow-up&rdquo;</em> surged <strong>+41%</strong> this week. Competitor visibility is unusually low in this cluster (Vertex: 14%, Leadly: 8%). Activating a dedicated $120/day Claude campaign will capture ~1,800 monthly high-intent buyer conversations.
                             </span>
                           </div>
                         </div>
@@ -388,75 +383,21 @@ export default function VisibilityChatWidget({
                           <TrendingUp size={16} className="text-[#0f9d6e]" />
                           4-Step Strategic Plan to Outrank Vertex CRM in AI Recommendations
                         </div>
-
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                          <div className="bg-white border border-[#e3e6ec] rounded-xl p-3.5 space-y-1.5 shadow-2xs">
-                            <div className="flex items-center gap-2">
-                              <span className="w-5 h-5 rounded-full bg-[#2447ff] text-white flex items-center justify-center text-[10px] font-bold">1</span>
-                              <span className="font-semibold text-xs text-[#0e1116]">Reallocate Spend to Claude & Perplexity</span>
+                          {[
+                            { step: 1, title: 'Reallocate Spend to Claude & Perplexity', body: 'Claude generates your highest qualified lead rate (41%) at an acquisition CPA of $31, but only receives 25% of current budget. Shifting 15% from Meta AI to Claude and Perplexity directly increases top-ranked recommendations.' },
+                            { step: 2, title: 'Target Uncontested Intent Clusters', body: 'Configure ad context triggers for "automated lead follow-up" and "AI pipeline scoring". Vertex CRM is currently unrepresented in these search prompts, allowing Flowdesk to achieve 70%+ sponsored share of voice.' },
+                            { step: 3, title: 'Citation Source Engineering', body: 'Perplexity and Gemini cite third-party reviews (G2, Capterra, TechRadar) in 78% of responses. Launching a targeted review push on G2 will increase organic citations by an estimated +35% in model grounding runs.' },
+                            { step: 4, title: 'Calibrate Relevancy Floor to 0.76', body: 'Increasing the relevancy floor prevents ads from serving on casual, non-commercial CRM questions, preserving budget exclusively for teams actively evaluating software switches.' },
+                          ].map((item) => (
+                            <div key={item.step} className="bg-white border border-[#e3e6ec] rounded-xl p-3.5 space-y-1.5 shadow-sm">
+                              <div className="flex items-center gap-2">
+                                <span className="w-5 h-5 rounded-full bg-[#2447ff] text-white flex items-center justify-center text-[10px] font-bold flex-shrink-0">{item.step}</span>
+                                <span className="font-semibold text-xs text-[#0e1116]">{item.title}</span>
+                              </div>
+                              <p className="text-[#667085] leading-relaxed">{item.body}</p>
                             </div>
-                            <p className="text-[#667085] leading-relaxed">
-                              Claude generates your highest qualified lead rate (41%) at an acquisition CPA of $31, but only receives 25% of current budget. Shifting 15% from Meta AI to Claude and Perplexity directly increases top-ranked recommendations.
-                            </p>
-                          </div>
-
-                          <div className="bg-white border border-[#e3e6ec] rounded-xl p-3.5 space-y-1.5 shadow-2xs">
-                            <div className="flex items-center gap-2">
-                              <span className="w-5 h-5 rounded-full bg-[#2447ff] text-white flex items-center justify-center text-[10px] font-bold">2</span>
-                              <span className="font-semibold text-xs text-[#0e1116]">Target Uncontested Intent Clusters</span>
-                            </div>
-                            <p className="text-[#667085] leading-relaxed">
-                              Configure ad context triggers for "automated lead follow-up" and "AI pipeline scoring". Vertex CRM is currently unrepresented in these search prompts, allowing Flowdesk to achieve 70%+ sponsored share of voice.
-                            </p>
-                          </div>
-
-                          <div className="bg-white border border-[#e3e6ec] rounded-xl p-3.5 space-y-1.5 shadow-2xs">
-                            <div className="flex items-center gap-2">
-                              <span className="w-5 h-5 rounded-full bg-[#2447ff] text-white flex items-center justify-center text-[10px] font-bold">3</span>
-                              <span className="font-semibold text-xs text-[#0e1116]">Citation Source Engineering</span>
-                            </div>
-                            <p className="text-[#667085] leading-relaxed">
-                              Perplexity and Gemini cite third-party reviews (G2, Capterra, TechRadar) in 78% of responses. Launching a targeted review push on G2 will increase organic citations by an estimated +35% in model grounding runs.
-                            </p>
-                          </div>
-
-                          <div className="bg-white border border-[#e3e6ec] rounded-xl p-3.5 space-y-1.5 shadow-2xs">
-                            <div className="flex items-center gap-2">
-                              <span className="w-5 h-5 rounded-full bg-[#2447ff] text-white flex items-center justify-center text-[10px] font-bold">4</span>
-                              <span className="font-semibold text-xs text-[#0e1116]">Calibrate Relevancy Floor to 0.76</span>
-                            </div>
-                            <p className="text-[#667085] leading-relaxed">
-                              Increasing the relevancy floor prevents ads from serving on casual, non-commercial CRM questions, preserving budget exclusively for teams actively evaluating software switches.
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* Execution Timeline Diagram */}
-                        <div className="bg-white border border-[#e3e6ec] rounded-xl p-3.5 shadow-2xs">
-                          <span className="font-semibold text-xs text-[#0e1116] block mb-2">
-                            Recommended 30-Day Execution Timeline:
-                          </span>
-                          <div className="flex items-center justify-between text-[11px] text-[#667085] border-t border-[#e3e6ec] pt-2">
-                            <div className="text-center">
-                              <span className="font-bold text-[#2447ff] block">Week 1</span>
-                              <span>Shift $5k to Claude</span>
-                            </div>
-                            <span className="text-[#e3e6ec]">→</span>
-                            <div className="text-center">
-                              <span className="font-bold text-[#2447ff] block">Week 2</span>
-                              <span>Launch Automation Ad</span>
-                            </div>
-                            <span className="text-[#e3e6ec]">→</span>
-                            <div className="text-center">
-                              <span className="font-bold text-[#2447ff] block">Week 3</span>
-                              <span>G2 Review Sync</span>
-                            </div>
-                            <span className="text-[#e3e6ec]">→</span>
-                            <div className="text-center">
-                              <span className="font-bold text-[#0f9d6e] block">Week 4</span>
-                              <span>+12pt SOV Lift</span>
-                            </div>
-                          </div>
+                          ))}
                         </div>
                       </div>
                     )}
@@ -465,7 +406,7 @@ export default function VisibilityChatWidget({
                     {m.richData === 'competitor-compare' && (
                       <div className="mt-4 pt-4 border-t border-[#e3e6ec] space-y-4 text-xs text-[#0e1116]">
                         <div className="overflow-x-auto">
-                          <table className="w-full text-xs bg-white border border-[#e3e6ec] rounded-xl overflow-hidden shadow-2xs">
+                          <table className="w-full text-xs bg-white border border-[#e3e6ec] rounded-xl overflow-hidden shadow-sm">
                             <thead>
                               <tr className="bg-[#fafafa] border-b border-[#e3e6ec]">
                                 <th className="px-3 py-2.5 text-left font-semibold text-[#667085]">Metric</th>
@@ -502,9 +443,6 @@ export default function VisibilityChatWidget({
                             </tbody>
                           </table>
                         </div>
-                        <p className="text-[#667085] leading-relaxed">
-                          <strong>Strategic Summary:</strong> Flowdesk enjoys higher organic buyer sentiment (+7% higher positive sentiment regarding pricing and onboarding simplicity), but Vertex CRM leads on raw citation volume across Gemini and Copilot.
-                        </p>
                       </div>
                     )}
 
@@ -512,17 +450,17 @@ export default function VisibilityChatWidget({
                     {m.richData === 'publisher-quality' && (
                       <div className="mt-4 pt-4 border-t border-[#e3e6ec] space-y-3 text-xs text-[#0e1116]">
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                          <div className="bg-white border border-[#e3e6ec] rounded-xl p-3 shadow-2xs">
+                          <div className="bg-white border border-[#e3e6ec] rounded-xl p-3 shadow-sm">
                             <span className="text-xs font-bold text-[#d97706] block">#1 Claude (Opus)</span>
                             <span className="text-base font-bold text-[#0e1116] block mt-1">41% QL Rate</span>
                             <span className="text-[#667085] text-[11px] block">$31 CPA · 5.2× ROAS</span>
                           </div>
-                          <div className="bg-white border border-[#e3e6ec] rounded-xl p-3 shadow-2xs">
+                          <div className="bg-white border border-[#e3e6ec] rounded-xl p-3 shadow-sm">
                             <span className="text-xs font-bold text-[#16a34a] block">#2 ChatGPT (OpenAI)</span>
                             <span className="text-base font-bold text-[#0e1116] block mt-1">38% QL Rate</span>
                             <span className="text-[#667085] text-[11px] block">$34 CPA · 4.7× ROAS</span>
                           </div>
-                          <div className="bg-white border border-[#e3e6ec] rounded-xl p-3 shadow-2xs">
+                          <div className="bg-white border border-[#e3e6ec] rounded-xl p-3 shadow-sm">
                             <span className="text-xs font-bold text-[#0d9488] block">#3 Perplexity AI</span>
                             <span className="text-base font-bold text-[#0e1116] block mt-1">36% QL Rate</span>
                             <span className="text-[#667085] text-[11px] block">$26 CPA · 4.2× ROAS</span>
@@ -557,10 +495,10 @@ export default function VisibilityChatWidget({
 
           {loading && (
             <div className="flex gap-3.5 items-start">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#2447ff] to-[#7c3aed] flex items-center justify-center text-white flex-shrink-0 shadow-sm">
-                <Bot size={16} />
+              <div className="w-8 h-8 rounded-xl bg-[#0a0f2e] border border-[#2447ff]/30 flex items-center justify-center flex-shrink-0 shadow-sm">
+                <Image src="/logo.png" alt="OctaLume" width={22} height={13} className="object-contain" />
               </div>
-              <div className="bg-[#f8f9fb] border border-[#e3e6ec] rounded-2xl rounded-tl-xs p-4 text-sm text-[#667085] flex items-center gap-2 shadow-2xs">
+              <div className="bg-[#f8f9fb] border border-[#e3e6ec] rounded-2xl rounded-tl-xs p-4 text-sm text-[#667085] flex items-center gap-2 shadow-sm">
                 <div className="flex gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-[#2447ff] animate-bounce" style={{ animationDelay: '0ms' }} />
                   <span className="w-2 h-2 rounded-full bg-[#2447ff] animate-bounce" style={{ animationDelay: '150ms' }} />
@@ -585,8 +523,8 @@ export default function VisibilityChatWidget({
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder='Ask about keyword analytics, competitor visibility, prompt share of voice (e.g. Give search analytics for keyword "CRM")...'
-              className="flex-1 bg-white border border-[#e3e6ec] rounded-xl px-4 py-3 text-sm text-[#0e1116] placeholder:text-[#667085]/70 focus:outline-none focus:border-[#2447ff] focus:ring-1 focus:ring-[#2447ff] shadow-2xs"
+              placeholder='Ask about keyword analytics, competitor visibility, or prompt share of voice...'
+              className="flex-1 bg-white border border-[#e3e6ec] rounded-xl px-4 py-3 text-sm text-[#0e1116] placeholder:text-[#667085]/70 focus:outline-none focus:border-[#2447ff] focus:ring-1 focus:ring-[#2447ff] shadow-sm min-w-0"
             />
             <button
               type="submit"
@@ -596,8 +534,8 @@ export default function VisibilityChatWidget({
               <Send size={16} />
             </button>
           </form>
-          <div className="flex items-center justify-between text-[11px] text-[#667085] mt-2 px-1">
-            <span>OctaLume AI Visibility Engine · Model: llama-3.3-70b-versatile via Groq</span>
+          <div className="flex items-center justify-between text-[11px] text-[#667085] mt-2 px-1 flex-wrap gap-1">
+            <span>OctaLume AI Visibility Engine · llama-3.3-70b-versatile via Groq</span>
             <span>Real-time Prompt Intelligence</span>
           </div>
         </div>
