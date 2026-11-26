@@ -150,13 +150,13 @@ export default function HomePage() {
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.08] mb-5" style={{ fontFamily: 'var(--font-bricolage, sans-serif)' }}>
-              <span className="text-white">SEO is changing forever.</span>
+              <span className="text-white">Intent-based AI advertising.</span>
               <br />
-              <span className="gradient-text-animated">The future of marketing is inside AI.</span>
+              <span className="gradient-text-animated">The future of AI revenue &amp; growth.</span>
             </h1>
 
             <p className="text-base sm:text-lg text-blue-200/85 mt-4 leading-relaxed max-w-2xl mx-auto">
-              Buyers no longer scroll ten blue links — they ask AI. Traditional advertising and SEO are giving way to conversational intent. Own the answer with OctaLume.
+              Real-time AI-native ad intelligence that connects high-intent buyers with the right brands — fueling sustainable revenue for AI platforms and precision growth for advertisers.
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-3.5 mt-8">
