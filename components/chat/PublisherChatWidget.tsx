@@ -4,6 +4,11 @@ import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { Send, Sparkles, ChevronDown, ChevronUp } from 'lucide-react';
 import { PublisherLogo } from '@/components/chat/PublisherLogos';
+import {
+  callGroqDirect,
+  PUBLISHER_PROMPTS,
+  INSIGHT_SYSTEM_PROMPT,
+} from '@/lib/groqClient';
 
 const publishers = [
   { id: 'claude', name: 'Claude', model: 'Opus 5.5', color: '#d97706', bg: '#fef3c7', initial: 'C' },
@@ -120,9 +125,13 @@ export default function PublisherChatWidget({ heightClass = 'h-[calc(100vh-8rem)
       const data = await res.json();
       setMessages([...newMessages, { role: 'assistant', content: data.response || getStaticPublisherResponse(selectedPublisher.name, queryText) }]);
     } catch {
-      setTimeout(() => {
+      try {
+        const systemPrompt = PUBLISHER_PROMPTS[selectedPublisher.id] || PUBLISHER_PROMPTS.claude;
+        const reply = await callGroqDirect(systemPrompt, newMessages, { max_tokens: 500, temperature: 0.7 });
+        setMessages([...newMessages, { role: 'assistant', content: reply }]);
+      } catch {
         setMessages([...newMessages, { role: 'assistant', content: getStaticPublisherResponse(selectedPublisher.name, queryText) }]);
-      }, 500);
+      }
     } finally {
       setLoading(false);
     }
@@ -147,9 +156,19 @@ export default function PublisherChatWidget({ heightClass = 'h-[calc(100vh-8rem)
       const data = await res.json();
       setInsightMessages([...newMsgs, { role: 'assistant', content: data.response || getStaticInsightResponse(text, insightPublisher) }]);
     } catch {
-      setTimeout(() => {
+      try {
+        const publisherContext =
+          insightPublisher && insightPublisher !== 'all'
+            ? `\nFocus on publisher: ${insightPublisher}`
+            : '\nAnalyze across all publishers.';
+        const reply = await callGroqDirect(INSIGHT_SYSTEM_PROMPT + publisherContext, newMsgs, {
+          max_tokens: 400,
+          temperature: 0.6,
+        });
+        setInsightMessages([...newMsgs, { role: 'assistant', content: reply }]);
+      } catch {
         setInsightMessages([...newMsgs, { role: 'assistant', content: getStaticInsightResponse(text, insightPublisher) }]);
-      }, 500);
+      }
     } finally {
       setInsightLoading(false);
     }

@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
+import { callGroqDirect, VISIBILITY_SYSTEM_PROMPT } from '@/lib/groqClient';
 import {
   Send,
   Sparkles,
@@ -162,16 +163,16 @@ export default function VisibilityChatWidget({
     }
 
     try {
+      const chatPayload = messages.concat(userMsg).map((m) => ({
+        role: m.role,
+        content: m.content,
+      }));
       const res = await fetch('/api/visibility-chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: messages.concat(userMsg).map((m) => ({
-            role: m.role,
-            content: m.content,
-          })),
-        }),
+        body: JSON.stringify({ messages: chatPayload }),
       });
+      if (!res.ok) throw new Error('API unavailable');
       const data = await res.json();
       const assistantMsg: ChatMessage = {
         id: `a-${Date.now()}`,
@@ -181,14 +182,32 @@ export default function VisibilityChatWidget({
       };
       setMessages((prev) => [...prev, assistantMsg]);
     } catch {
-      const assistantMsg: ChatMessage = {
-        id: `a-${Date.now()}`,
-        role: 'assistant',
-        content:
-          'OctaLume AI Visibility Engine is currently in static preview mode. Click on any of the suggested prompts above to see complete prompt distributions, competitor share of voice, and tactical playbooks.',
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      };
-      setMessages((prev) => [...prev, assistantMsg]);
+      try {
+        const chatPayload = messages.concat(userMsg).map((m) => ({
+          role: m.role,
+          content: m.content,
+        }));
+        const reply = await callGroqDirect(VISIBILITY_SYSTEM_PROMPT, chatPayload, {
+          max_tokens: 700,
+          temperature: 0.7,
+        });
+        const assistantMsg: ChatMessage = {
+          id: `a-${Date.now()}`,
+          role: 'assistant',
+          content: reply,
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        };
+        setMessages((prev) => [...prev, assistantMsg]);
+      } catch {
+        const assistantMsg: ChatMessage = {
+          id: `a-${Date.now()}`,
+          role: 'assistant',
+          content:
+            'OctaLume AI Visibility Engine is currently in static preview mode. Click on any of the suggested prompts above to see complete prompt distributions, competitor share of voice, and tactical playbooks.',
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        };
+        setMessages((prev) => [...prev, assistantMsg]);
+      }
     } finally {
       setLoading(false);
     }
